@@ -89,4 +89,27 @@ public class NeuralNetwork {
             i++;
         }
     }
+
+    public List<Weight> getWeights() {
+        List<Weight> weights = new ArrayList<>();
+        for (int i = getLayers().size() - 1; i > 0; i--) {
+            for (Neuron neuron : layers.get(i).getNeurons()) {
+                for (Synapse synapse : neuron.getInputSynapses()) {
+                    weights.add(synapse.getWeight());
+                }
+            }
+        }
+
+        return weights;
+    }
+
+    public void setWeights(List<Weight> weights) {
+        for (int i = getLayers().size() - 1; i > 0; i--) {
+            for (Neuron neuron : layers.get(i).getNeurons()) {
+                for (Synapse synapse : neuron.getInputSynapses()) {
+                    synapse.setWeight(weights.iterator().next());
+                }
+            }
+        }
+    }
 }

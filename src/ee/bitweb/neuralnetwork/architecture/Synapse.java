@@ -39,6 +39,10 @@ public class Synapse {
         return weight;
     }
 
+    public void setWeight(Weight weight) {
+        this.weight = weight;
+    }
+
     public double getInput() {
         return fromNeuron.getOutput();
     }

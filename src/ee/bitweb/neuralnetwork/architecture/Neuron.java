@@ -66,12 +66,6 @@ public class Neuron {
     void calculate() {
         totalInput = inputFunction.getOutput(inputSynapses);
         output = transferFunction.getOutput(totalInput);
-
-        //System.out.println(totalInput);
-    }
-
-    public String toString() {
-        return "Neuron totalInput=" + totalInput + " output=" + getOutput();
     }
 
     public void setInput(double input) {
@@ -92,5 +86,9 @@ public class Neuron {
 
     public Double getError() {
         return error;
+    }
+
+    public String toString() {
+        return "Neuron totalInput=" + totalInput + " output=" + getOutput();
     }
 }

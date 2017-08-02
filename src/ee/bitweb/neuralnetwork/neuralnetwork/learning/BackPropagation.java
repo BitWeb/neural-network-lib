@@ -9,6 +9,7 @@ import ee.bitweb.neuralnetwork.architecture.data.DataSet;
 import ee.bitweb.neuralnetwork.architecture.learning.LearningRule;
 import ee.bitweb.neuralnetwork.architecture.transfer.TransferFunction;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class BackPropagation extends LearningRule {
     @Override
     public void learn(DataSet trainingSet) {
         onStart();
-        while (trainingSet.iterator().hasNext() && !isStopped()) {
+        while (!isStopped()) {
             doLearningEpoch(trainingSet);
             if (hasReachedStopCondition()) {
                 stopLearning();
@@ -28,8 +29,9 @@ public class BackPropagation extends LearningRule {
     }
 
     private void doLearningEpoch(DataSet trainingSet) {
-        for (DataRow row : trainingSet) {
-            learnPattern(row);
+        Iterator<DataRow> iterator = trainingSet.iterator();
+        while (iterator.hasNext() && !isStopped()) {
+            learnPattern(iterator.next());
         }
     }
 
@@ -89,11 +91,9 @@ public class BackPropagation extends LearningRule {
         }
 
         TransferFunction transferFunction = neuron.getTransferFunction();
-        double netInput = neuron.getTotalInput();
-        double f1 = transferFunction.getDerivative(neuron.getOutput());   // does this use netInput or cached output in order to avoid double caluclation?
-        double delta = f1 * deltaSum;
+        double f1 = transferFunction.getDerivative(neuron.getOutput());
 
-        return delta;
+        return f1 * deltaSum;
     }
 
     private void applyWeightChanges() {
